@@ -40,7 +40,8 @@ export const addQuestion = async (req, res) => {
 };
 
 // UPDATE a question in a test
-export const updateQuestion = async (req, res) => {
+export const 
+updateQuestion = async (req, res) => {
   const { testId, questionIndex } = req.params;
   const createdBy = req.userId;
   const { questionText, options, correctAnswer, marks } = req.body;

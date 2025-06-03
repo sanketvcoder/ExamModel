@@ -1,41 +1,89 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    try {
+      const res = await fetch('http://127.0.0.1:5001/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+        body: JSON.stringify({ email, password })
+      });
+
+      const data = await res.json();
+      alert(data.message);
+
+      console.log("Response from server:", data);
+
+      if (data.success) {
+        console.log(JSON.stringify(data.user) + "rohan");
+        localStorage.setItem('user', JSON.stringify(data.user));
+        navigate('/dashboard');
+      }
+    } catch (error) {
+      alert('Login failed. Please try again.');
+      console.error(error);
+    }
+  };
+
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-6 text-center text-blue-600">Login</h2>
-        <form>
-          <div className="mb-4">
-            <label className="block text-gray-700 mb-1" htmlFor="email">Email</label>
-            <input
-              type="email"
-              id="email"
-              className="w-full border border-gray-300 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter your email"
-              required
-            />
-          </div>
-          <div className="mb-6">
-            <label className="block text-gray-700 mb-1" htmlFor="password">Password</label>
-            <input
-              type="password"
-              id="password"
-              className="w-full border border-gray-300 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter your password"
-              required
-            />
-          </div>
-          <button
-            type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition duration-300"
-          >
-            Login
-          </button>
-        </form>
-      </div>
+    <div className="login" style={styles.container}>
+      <h2>Login</h2>
+      <form onSubmit={handleLogin} style={styles.form}>
+        <input
+          type="email"
+          placeholder="Enter Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+          style={styles.input}
+        />
+        <input
+          type="password"
+          placeholder="Enter Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+          style={styles.input}
+        />
+        <button type="submit" style={styles.button}>Login</button>
+      </form>
     </div>
   );
+};
+
+const styles = {
+  container: {
+    padding: '2rem',
+    textAlign: 'center'
+  },
+  form: {
+    display: 'inline-block',
+    textAlign: 'left'
+  },
+  input: {
+    display: 'block',
+    marginBottom: '1rem',
+    padding: '0.5rem',
+    width: '100%'
+  },
+  button: {
+    padding: '0.5rem 1rem',
+    backgroundColor: '#4CAF50',
+    color: 'white',
+    border: 'none',
+    cursor: 'pointer'
+  }
 };
 
 export default Login;

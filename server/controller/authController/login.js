@@ -37,14 +37,22 @@ export const login = async (req, res) => {
 
         res.cookie('token', token, {
             httpOnly: true,
-            secure: node_env === 'production' ? true : false,
-            sameSite: node_env === 'production' ? 'none' : 'strict',
+            secure: true,
+            sameSite: 'none',
             maxAge: 7 * 24 * 60 * 60 * 1000,
         });
 
         return res.status(200).json({
             success: true,
-            message: 'Login successful'
+            message: 'Login successful',
+            user: {
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                role: user.role,
+                isAccountVerified: user.isAccountVerified,
+                isProfileCreated: user.isProfileCreated
+            }
         });
     } catch (error) {
         return res.status(500).json({
