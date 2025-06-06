@@ -1,4 +1,4 @@
-import studentProfileModel from "../../models/sutidentProfileModels.js";
+import studentProfileModel from "../../models/studentProfileModels.js";
 import userModel from "../../models/userModel.js";
 
 export const updateProfile = async (req, res) => {

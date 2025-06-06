@@ -1,16 +1,38 @@
 import React, { useEffect, useState } from 'react';
 import Header from './Header';
-import './Dashboard.css'; 
+import '../css/Dashboard.css'; 
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import ShowProfile from './ShowProfile'; // ✅ Import profile component
 
 const Dashboard = () => {
   const [user, setUser] = useState(null);
+  const [showProfile, setShowProfile] = useState(false); // ✅ Track if profile should be shown
   const navigate = useNavigate();
-  useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
+
+  const updateData = async () => {
+    try {
+      const res = await axios.post(
+        'http://127.0.0.1:5001/api/auth/is-auth',
+        {},
+        { withCredentials: true }
+      );
+
+      if (res.data.success) {
+        const updatedUser = res.data.user;
+        localStorage.setItem('user', JSON.stringify(updatedUser));
+        setUser(updatedUser); 
+      } else {
+        alert(res.data.message || 'Failed to update user data.');
+      }
+    } catch (error) {
+      console.error('Error fetching updated user data:', error);
+      alert('Failed to update user data.');
     }
+  };
+
+  useEffect(() => {
+    updateData(); 
   }, []);
 
   if (!user) {
@@ -25,19 +47,33 @@ const Dashboard = () => {
           {!user.isAccountVerified && (
             <button
               className="custom-button"
-              onClick={() => navigate('/send-otp-mail')} // add this
+              onClick={() => navigate('/verify-account')}
             >
               Please Verify
             </button>
           )}
           {user.isProfileCreated ? (
-            <button className="custom-button">Profile</button>
+            <button
+              className="custom-button"
+              onClick={() => setShowProfile(true)} // ✅ Toggle profile view
+            >
+              Profile
+            </button>
           ) : (
-            <button className="custom-button">Create Profile</button>
+            <button
+              className="custom-button"
+              onClick={() => navigate('/create-profile')}
+            >
+              Create Profile
+            </button>
           )}
         </div>
+
         <div style={styles.container2}>
           <h2>Welcome, {user.name}!</h2>
+          <main>
+            {showProfile && <ShowProfile />} {/* ✅ Render profile here */}
+          </main>
         </div>
       </div>
     </div>
@@ -65,6 +101,6 @@ const styles = {
   },
   container2: {
     padding: '2rem',
+    overflowY: 'auto',
   },
-  
 };

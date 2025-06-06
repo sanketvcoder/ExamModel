@@ -1,9 +1,30 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Verify = () => {
   const [otp, setOtp] = useState('');
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  // Only send OTP once when the component mounts
+  useEffect(() => {
+    const sendVerificationOtp = async () => {
+      try {
+        await axios.post(
+          'http://127.0.0.1:5001/api/auth/send-verify-otp',
+          {},
+          { withCredentials: true }
+        );
+        console.log('OTP sent');
+      } catch (error) {
+        console.error(error);
+        alert('Failed to send OTP.');
+      }
+    };
+
+    sendVerificationOtp();
+  }, []);
 
   const handleVerify = async () => {
     if (!otp.trim()) {
@@ -21,12 +42,11 @@ const Verify = () => {
 
       if (res.status === 200) {
         alert('Account verified successfully!');
-        // Optionally redirect to dashboard
         navigate('/dashboard');
       }
     } catch (error) {
       console.error(error);
-      alert('OTP verification failed.');
+      alert(error.response?.data?.message || 'OTP verification failed.');
     } finally {
       setLoading(false);
     }
@@ -51,7 +71,6 @@ const Verify = () => {
 
 export default Verify;
 
-// Basic styling
 const styles = {
   container: {
     padding: '2rem',

@@ -17,7 +17,7 @@ const studentProfileSchema = new mongoose.Schema({
     required: true,
   },
   dateOfBirth: {
-    type: Date, // Date field to store date of birth
+    type: Date,
     required: true,
   },
   qualification: {
@@ -36,33 +36,31 @@ const studentProfileSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  address: {
-    street: {
-      type: String,
-      required: true,
-    },
-    city: {
-      type: String,
-      required: true,
-    },
-    state: {
-      type: String,
-      required: true,
-    },
-    postalCode: {
-      type: String,
-      required: true,
-    },
+  // Flattened address fields
+  street: {
+    type: String,
+    required: true,
   },
-  socialLinks: {
-    linkedin: {
-      type: String,
-      required: true,
-    },
-    github: {
-      type: String,
-      required: true,
-    },
+  city: {
+    type: String,
+    required: true,
+  },
+  state: {
+    type: String,
+    required: true,
+  },
+  postalCode: {
+    type: String,
+    required: true,
+  },
+  // Flattened social links
+  linkedin: {
+    type: String,
+    required: true,
+  },
+  github: {
+    type: String,
+    required: true,
   },
 }, { timestamps: true });
 

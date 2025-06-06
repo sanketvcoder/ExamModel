@@ -1,8 +1,9 @@
-import studentProfileModel from "../../models/sutidentProfileModels.js";
+import studentProfileModel from "../../models/studentProfileModels.js";
 
 export const getProfile = async (req, res) => {
     const userId = req.userId;
 
+    console.log("this is student Profile "+ userId)
     try {
         const profile = await studentProfileModel.findOne({ userId }).populate('userId', 'name email');
 
