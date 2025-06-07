@@ -12,7 +12,7 @@ export const resetPassword = async (req, res) => {
     }
 
     try {
-        const user = await userModel.findOne({ email });
+        const user = await userModel.findOne({ email: email.trim().toLowerCase() });
 
         if (!user) {
             return res.status(404).json({
@@ -39,8 +39,8 @@ export const resetPassword = async (req, res) => {
         const hashedPassword = await bcrypt.hash(newPassword, salt);
 
         user.password = hashedPassword;
-        user.resetOtp = '';
-        user.resetOtpExpireAt = 0;
+        user.resetOtp = null;
+        user.resetOtpExpireAt = null;
 
         await user.save();
 

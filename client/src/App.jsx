@@ -5,6 +5,7 @@ import Verify from './conponents/Verify'; // Now handles both send + verify
 import CreateProfile from './conponents/CreateProfile';
 import ShowProfile from './conponents/ShowProfile';
 import Sign from './conponents/Sign';
+import ForgotPassword from './conponents/ForgotPassword';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/verify-account" element={<Verify />} />
         <Route path="/create-profile" element={<CreateProfile/>} />
         <Route path="/get-Profile" element={<ShowProfile/>} />
+        <Route path="/forgot-password" element={<ForgotPassword/>} />
       </Routes>
     </BrowserRouter>
   );
