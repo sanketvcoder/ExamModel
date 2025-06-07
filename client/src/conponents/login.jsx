@@ -56,6 +56,10 @@ const Login = () => {
           required
           style={styles.input}
         />
+        <div>
+          <h3 style={styles.forgot} onClick={()=>navigate('/sign-in')} >Sign In</h3>
+          <p style={styles.forgot} onClick={() => navigate('/forgot-password')}>Forgot Password?</p>
+        </div>
         <button type="submit" style={styles.button}>Login</button>
       </form>
     </div>
@@ -69,7 +73,24 @@ const styles = {
   },
   form: {
     display: 'inline-block',
-    textAlign: 'left'
+    textAlign: 'left',
+    width: '300px'
+  },
+  row: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '1rem'
+  },
+  signIn: {
+    margin: 0,
+    fontSize: '1.5rem'
+  },
+  forgot: {
+    color: '#007bff',
+    cursor: 'pointer',
+    fontSize: '0.9rem',
+    textDecoration: 'underline'
   },
   input: {
     display: 'block',
@@ -82,7 +103,8 @@ const styles = {
     backgroundColor: '#4CAF50',
     color: 'white',
     border: 'none',
-    cursor: 'pointer'
+    cursor: 'pointer',
+    width: '100%'
   }
 };
 
