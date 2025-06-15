@@ -1,8 +1,9 @@
 // routes/assessmentRoutes/testRoutes.js
 import express from 'express';
 import userAuth from '../../middleware/userAuth.js';
-import { createTest, deleteTest, getTests, updateTestSections } from '../../controller/testController/testController.js';
+import { createTest, deleteTest, getTestById, getTests, testAuth, updateTestSections } from '../../controller/testController/testController.js';
 import { addQuestion, deleteQuestion, updateQuestion } from '../../controller/testController/CurdQuestion.js';
+
 // Ensure only authenticated users (teachers) can access
 
 const router = express.Router();
@@ -30,5 +31,10 @@ router.put('/:testId/question/:questionIndex', userAuth, updateQuestion);
 
 // Delete question by index
 router.delete('/:testId/question/:questionIndex', userAuth, deleteQuestion);
+
+router.post('/tests/authenticate',testAuth)
+
+router.get('/:testId', userAuth, getTestById);
+
 
 export default router;

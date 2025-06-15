@@ -36,7 +36,7 @@ const studentProfileSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  // Flattened address fields
+
   street: {
     type: String,
     required: true,
@@ -53,7 +53,7 @@ const studentProfileSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  // Flattened social links
+  
   linkedin: {
     type: String,
     required: true,
